@@ -17,7 +17,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Specialized;
 using cAlgo.API;
 
-// --> Microsoft Visual Studio 2017 --> Strumenti --> Gestione pacchetti NuGet --> Gestisci pacchetti NuGet per la soluzione... --> Installa
+// --> Microsoft Visual Studio 2017 --> Strumenti --> Gestione pacchetti NuGet --> Gestisci pacchetti NuGet per la soluzione... --> Installa 
 using Newtonsoft.Json;
 
 
