@@ -182,7 +182,7 @@ namespace cAlgo.Indicators
 
         public const string NAME = "ZigZag";
 
-        public const string VERSION = "1.0.4";
+        public const string VERSION = "1.0.5";
 
         #endregion
 
@@ -272,7 +272,7 @@ namespace cAlgo.Indicators
 
             }
 
-            if (_highZigZags[index] == _high && _waiting > -1)
+            if (_highZigZags[index] == _lastHigh && _waiting > -1)
             {
 
                 _waiting = -1;
@@ -280,7 +280,7 @@ namespace cAlgo.Indicators
 
             }
             
-            if (_lowZigZags[index] == _low && _waiting < 1)
+            if (_lowZigZags[index] == _lastLow && _waiting < 1)
             {
 
                 _waiting = 1;
@@ -294,7 +294,7 @@ namespace cAlgo.Indicators
                 if (_highZigZags[index] > 0)
                 {
 
-                    ChartText cth = Chart.DrawText("zzh-" + _countHigh, _highZigZags[index].ToString("N" + Symbol.Digits), index, _highZigZags[index], Color.FromName(ColorHigh.ToString("G")));
+                    ChartText cth = Chart.DrawText("zzh-" + _countHigh, _highZigZags[_lastHighIndex].ToString("N" + Symbol.Digits), _lastHighIndex, _highZigZags[_lastHighIndex], Color.FromName(ColorHigh.ToString("G")));
                     cth.HorizontalAlignment = HorizontalAlignment.Center;
                     cth.VerticalAlignment = VerticalAlignment.Top;
 
@@ -303,7 +303,7 @@ namespace cAlgo.Indicators
                 if (_lowZigZags[index] > 0)
                 {
 
-                    ChartText ctl = Chart.DrawText("zzl-" + _countLow, _lowZigZags[index].ToString("N" + Symbol.Digits), index, _lowZigZags[index], Color.FromName(ColorLow.ToString("G")));
+                    ChartText ctl = Chart.DrawText("zzl-" + _countLow, _lowZigZags[_lastLowIndex].ToString("N" + Symbol.Digits), _lastLowIndex, _lowZigZags[_lastLowIndex], Color.FromName(ColorLow.ToString("G")));
                     ctl.HorizontalAlignment = HorizontalAlignment.Center;
                     ctl.VerticalAlignment = VerticalAlignment.Bottom;
 
