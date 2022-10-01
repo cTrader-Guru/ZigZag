@@ -21,6 +21,153 @@ namespace cAlgo.Indicators
 
         #region Enums
 
+        public enum MyColors
+        {
+
+            AliceBlue,
+            AntiqueWhite,
+            Aqua,
+            Aquamarine,
+            Azure,
+            Beige,
+            Bisque,
+            Black,
+            BlanchedAlmond,
+            Blue,
+            BlueViolet,
+            Brown,
+            BurlyWood,
+            CadetBlue,
+            Chartreuse,
+            Chocolate,
+            Coral,
+            CornflowerBlue,
+            Cornsilk,
+            Crimson,
+            Cyan,
+            DarkBlue,
+            DarkCyan,
+            DarkGoldenrod,
+            DarkGray,
+            DarkGreen,
+            DarkKhaki,
+            DarkMagenta,
+            DarkOliveGreen,
+            DarkOrange,
+            DarkOrchid,
+            DarkRed,
+            DarkSalmon,
+            DarkSeaGreen,
+            DarkSlateBlue,
+            DarkSlateGray,
+            DarkTurquoise,
+            DarkViolet,
+            DeepPink,
+            DeepSkyBlue,
+            DimGray,
+            DodgerBlue,
+            Firebrick,
+            FloralWhite,
+            ForestGreen,
+            Fuchsia,
+            Gainsboro,
+            GhostWhite,
+            Gold,
+            Goldenrod,
+            Gray,
+            Green,
+            GreenYellow,
+            Honeydew,
+            HotPink,
+            IndianRed,
+            Indigo,
+            Ivory,
+            Khaki,
+            Lavender,
+            LavenderBlush,
+            LawnGreen,
+            LemonChiffon,
+            LightBlue,
+            LightCoral,
+            LightCyan,
+            LightGoldenrodYellow,
+            LightGray,
+            LightGreen,
+            LightPink,
+            LightSalmon,
+            LightSeaGreen,
+            LightSkyBlue,
+            LightSlateGray,
+            LightSteelBlue,
+            LightYellow,
+            Lime,
+            LimeGreen,
+            Linen,
+            Magenta,
+            Maroon,
+            MediumAquamarine,
+            MediumBlue,
+            MediumOrchid,
+            MediumPurple,
+            MediumSeaGreen,
+            MediumSlateBlue,
+            MediumSpringGreen,
+            MediumTurquoise,
+            MediumVioletRed,
+            MidnightBlue,
+            MintCream,
+            MistyRose,
+            Moccasin,
+            NavajoWhite,
+            Navy,
+            OldLace,
+            Olive,
+            OliveDrab,
+            Orange,
+            OrangeRed,
+            Orchid,
+            PaleGoldenrod,
+            PaleGreen,
+            PaleTurquoise,
+            PaleVioletRed,
+            PapayaWhip,
+            PeachPuff,
+            Peru,
+            Pink,
+            Plum,
+            PowderBlue,
+            Purple,
+            Red,
+            RosyBrown,
+            RoyalBlue,
+            SaddleBrown,
+            Salmon,
+            SandyBrown,
+            SeaGreen,
+            SeaShell,
+            Sienna,
+            Silver,
+            SkyBlue,
+            SlateBlue,
+            SlateGray,
+            Snow,
+            SpringGreen,
+            SteelBlue,
+            Tan,
+            Teal,
+            Thistle,
+            Tomato,
+            Transparent,
+            Turquoise,
+            Violet,
+            Wheat,
+            White,
+            WhiteSmoke,
+            Yellow,
+            YellowGreen
+
+        }
+
         public enum ModeZigZag
         {
 
@@ -35,7 +182,7 @@ namespace cAlgo.Indicators
 
         public const string NAME = "ZigZag";
 
-        public const string VERSION = "1.0.3";
+        public const string VERSION = "1.0.4";
 
         #endregion
 
@@ -56,6 +203,15 @@ namespace cAlgo.Indicators
         [Parameter(DefaultValue = 3, Group = "Params")]
         public int BackStep { get; set; }
 
+        [Parameter("Show", DefaultValue = true, Group = "Label")]
+        public bool ShowLabel { get; set; }
+
+        [Parameter("Color High", DefaultValue = MyColors.DodgerBlue, Group = "Label")]
+        public MyColors ColorHigh { get; set; }
+
+        [Parameter("Color Low", DefaultValue = MyColors.Red, Group = "Label")]
+        public MyColors ColorLow { get; set; }
+
         [Output("ZigZag", LineColor = "DodgerBlue", LineStyle = LineStyle.Lines)]
         public IndicatorDataSeries Result { get; set; }
 
@@ -73,6 +229,10 @@ namespace cAlgo.Indicators
         private double _point;
         private double _currentLow;
         private double _currentHigh;
+
+        private int _countHigh = 0;
+        private int _countLow = 0;
+        private int _waiting = 0;
 
         private IndicatorDataSeries _highZigZags;
         private IndicatorDataSeries _lowZigZags;
@@ -111,6 +271,45 @@ namespace cAlgo.Indicators
                     break;
 
             }
+
+            if (_highZigZags[index] == _high && _waiting > -1)
+            {
+
+                _waiting = -1;
+                _countHigh++;
+
+            }
+            
+            if (_lowZigZags[index] == _low && _waiting < 1)
+            {
+
+                _waiting = 1;
+                _countLow++;
+
+            }
+
+            if (ShowLabel)
+            {
+
+                if (_highZigZags[index] > 0)
+                {
+
+                    ChartText cth = Chart.DrawText("zzh-" + _countHigh, _highZigZags[index].ToString("N" + Symbol.Digits), index, _highZigZags[index], Color.FromName(ColorHigh.ToString("G")));
+                    cth.HorizontalAlignment = HorizontalAlignment.Center;
+                    cth.VerticalAlignment = VerticalAlignment.Top;
+
+                }
+
+                if (_lowZigZags[index] > 0)
+                {
+
+                    ChartText ctl = Chart.DrawText("zzl-" + _countLow, _lowZigZags[index].ToString("N" + Symbol.Digits), index, _lowZigZags[index], Color.FromName(ColorLow.ToString("G")));
+                    ctl.HorizontalAlignment = HorizontalAlignment.Center;
+                    ctl.VerticalAlignment = VerticalAlignment.Bottom;
+
+                }
+
+            }            
 
         }
 
