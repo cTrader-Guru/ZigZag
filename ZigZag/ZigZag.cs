@@ -188,7 +188,7 @@ namespace cAlgo.Indicators
 
         #region Params
 
-        [Parameter(NAME + " " + VERSION, Group = "Identity", DefaultValue = "https://www.google.com/search?q=ctrader+zigzag")]
+        [Parameter(NAME + " " + VERSION, Group = "Identity", DefaultValue = "https://www.google.com/search?q=ctrader+guru+zigzag")]
         public string ProductInfo { get; set; }
 
         [Parameter("Mode", DefaultValue = ModeZigZag.HighLow, Group = "Params")]
