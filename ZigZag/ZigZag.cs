@@ -1,4 +1,4 @@
-﻿/*  CTRADER GURU --> Template 1.0.6
+/*  CTRADER GURU --> Template 1.0.6
 
     Homepage    : https://ctrader.guru/
     Telegram    : https://t.me/ctraderguru
@@ -21,153 +21,6 @@ namespace cAlgo.Indicators
 
         #region Enums
 
-        public enum MyColors
-        {
-
-            AliceBlue,
-            AntiqueWhite,
-            Aqua,
-            Aquamarine,
-            Azure,
-            Beige,
-            Bisque,
-            Black,
-            BlanchedAlmond,
-            Blue,
-            BlueViolet,
-            Brown,
-            BurlyWood,
-            CadetBlue,
-            Chartreuse,
-            Chocolate,
-            Coral,
-            CornflowerBlue,
-            Cornsilk,
-            Crimson,
-            Cyan,
-            DarkBlue,
-            DarkCyan,
-            DarkGoldenrod,
-            DarkGray,
-            DarkGreen,
-            DarkKhaki,
-            DarkMagenta,
-            DarkOliveGreen,
-            DarkOrange,
-            DarkOrchid,
-            DarkRed,
-            DarkSalmon,
-            DarkSeaGreen,
-            DarkSlateBlue,
-            DarkSlateGray,
-            DarkTurquoise,
-            DarkViolet,
-            DeepPink,
-            DeepSkyBlue,
-            DimGray,
-            DodgerBlue,
-            Firebrick,
-            FloralWhite,
-            ForestGreen,
-            Fuchsia,
-            Gainsboro,
-            GhostWhite,
-            Gold,
-            Goldenrod,
-            Gray,
-            Green,
-            GreenYellow,
-            Honeydew,
-            HotPink,
-            IndianRed,
-            Indigo,
-            Ivory,
-            Khaki,
-            Lavender,
-            LavenderBlush,
-            LawnGreen,
-            LemonChiffon,
-            LightBlue,
-            LightCoral,
-            LightCyan,
-            LightGoldenrodYellow,
-            LightGray,
-            LightGreen,
-            LightPink,
-            LightSalmon,
-            LightSeaGreen,
-            LightSkyBlue,
-            LightSlateGray,
-            LightSteelBlue,
-            LightYellow,
-            Lime,
-            LimeGreen,
-            Linen,
-            Magenta,
-            Maroon,
-            MediumAquamarine,
-            MediumBlue,
-            MediumOrchid,
-            MediumPurple,
-            MediumSeaGreen,
-            MediumSlateBlue,
-            MediumSpringGreen,
-            MediumTurquoise,
-            MediumVioletRed,
-            MidnightBlue,
-            MintCream,
-            MistyRose,
-            Moccasin,
-            NavajoWhite,
-            Navy,
-            OldLace,
-            Olive,
-            OliveDrab,
-            Orange,
-            OrangeRed,
-            Orchid,
-            PaleGoldenrod,
-            PaleGreen,
-            PaleTurquoise,
-            PaleVioletRed,
-            PapayaWhip,
-            PeachPuff,
-            Peru,
-            Pink,
-            Plum,
-            PowderBlue,
-            Purple,
-            Red,
-            RosyBrown,
-            RoyalBlue,
-            SaddleBrown,
-            Salmon,
-            SandyBrown,
-            SeaGreen,
-            SeaShell,
-            Sienna,
-            Silver,
-            SkyBlue,
-            SlateBlue,
-            SlateGray,
-            Snow,
-            SpringGreen,
-            SteelBlue,
-            Tan,
-            Teal,
-            Thistle,
-            Tomato,
-            Transparent,
-            Turquoise,
-            Violet,
-            Wheat,
-            White,
-            WhiteSmoke,
-            Yellow,
-            YellowGreen
-
-        }
-
         public enum ModeZigZag
         {
 
@@ -182,7 +35,7 @@ namespace cAlgo.Indicators
 
         public const string NAME = "ZigZag";
 
-        public const string VERSION = "1.0.5";
+        public const string VERSION = "1.0.6";
 
         #endregion
 
@@ -206,11 +59,11 @@ namespace cAlgo.Indicators
         [Parameter("Show", DefaultValue = true, Group = "Label")]
         public bool ShowLabel { get; set; }
 
-        [Parameter("Color High", DefaultValue = MyColors.DodgerBlue, Group = "Label")]
-        public MyColors ColorHigh { get; set; }
+        [Parameter("Color High", DefaultValue = "DodgerBlue", Group = "Label")]
+        public Color ColorHigh { get; set; }
 
-        [Parameter("Color Low", DefaultValue = MyColors.Red, Group = "Label")]
-        public MyColors ColorLow { get; set; }
+        [Parameter("Color Low", DefaultValue = "Red", Group = "Label")]
+        public Color ColorLow { get; set; }
 
         [Output("ZigZag", LineColor = "DodgerBlue", LineStyle = LineStyle.Lines)]
         public IndicatorDataSeries Result { get; set; }
@@ -294,7 +147,7 @@ namespace cAlgo.Indicators
                 if (_highZigZags[index] > 0)
                 {
 
-                    ChartText cth = Chart.DrawText("zzh-" + _countHigh, _highZigZags[_lastHighIndex].ToString("N" + Symbol.Digits), _lastHighIndex, _highZigZags[_lastHighIndex], Color.FromName(ColorHigh.ToString("G")));
+                    ChartText cth = Chart.DrawText("zzh-" + _countHigh, _highZigZags[_lastHighIndex].ToString("N" + Symbol.Digits), _lastHighIndex, _highZigZags[_lastHighIndex], ColorHigh);
                     cth.HorizontalAlignment = HorizontalAlignment.Center;
                     cth.VerticalAlignment = VerticalAlignment.Top;
 
@@ -303,7 +156,7 @@ namespace cAlgo.Indicators
                 if (_lowZigZags[index] > 0)
                 {
 
-                    ChartText ctl = Chart.DrawText("zzl-" + _countLow, _lowZigZags[_lastLowIndex].ToString("N" + Symbol.Digits), _lastLowIndex, _lowZigZags[_lastLowIndex], Color.FromName(ColorLow.ToString("G")));
+                    ChartText ctl = Chart.DrawText("zzl-" + _countLow, _lowZigZags[_lastLowIndex].ToString("N" + Symbol.Digits), _lastLowIndex, _lowZigZags[_lastLowIndex], ColorLow);
                     ctl.HorizontalAlignment = HorizontalAlignment.Center;
                     ctl.VerticalAlignment = VerticalAlignment.Bottom;
 
